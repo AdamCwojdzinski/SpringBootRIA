@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:4200/", maxAge = 3600)
 @RestController
 @RequestMapping(ProductController.BASE_URL)
 public class ProductController
 {
     
-    public static final String BASE_URL = "/api/product";
+    public static final String BASE_URL = "/api/product/";
     
     private final ProductService productService;
     private final ProductRepository productRepository;
@@ -34,13 +33,13 @@ public class ProductController
     
     //get id
     
-    @PutMapping(BASE_URL + "/{id}")
+    @PutMapping(BASE_URL + "{id}")
     @ResponseStatus(HttpStatus.OK)
     public ProductDTO updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO){
         return productService.saveProduct(id, productDTO);
     }
     
-    @DeleteMapping(BASE_URL + "/{id}")
+    @DeleteMapping(BASE_URL + "{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteProduct(@PathVariable Long id){
        productService.deleteProduct(id);
