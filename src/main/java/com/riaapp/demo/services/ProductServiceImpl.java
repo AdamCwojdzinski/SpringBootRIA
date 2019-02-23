@@ -39,7 +39,8 @@ public class ProductServiceImpl implements ProductService {
     }
     
     @Override
-    public ProductDTO addNewProduct(ProductDTO productDTO) { return saveAndReturnDTO(productMapper.productDtoToProduct(productDTO)); }
+    public ProductDTO addNewProduct(ProductDTO productDTO) {
+        return saveAndReturnDTO(productMapper.productDtoToProduct(productDTO)); }
     
     @Override
     public ProductDTO saveProduct(Long id, ProductDTO productDTO){
@@ -50,4 +51,11 @@ public class ProductServiceImpl implements ProductService {
     
     @Override
     public void deleteProduct(Long id){ productRepository.deleteById(id); }
+    
+    @Override
+    public ProductDTO getProductById(Long id){
+        return productRepository.findById(id)
+            .map(productMapper::productToProductDTO)
+            .orElseThrow(ResourceNotFoundException::new);
+    }
 }

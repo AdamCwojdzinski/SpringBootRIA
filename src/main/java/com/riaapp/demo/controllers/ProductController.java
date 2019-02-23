@@ -7,15 +7,12 @@ import com.riaapp.demo.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
 @RequestMapping(ProductController.BASE_URL)
 public class ProductController
 {
     
-    public static final String BASE_URL = "/api/product/";
+    public static final String BASE_URL = "/api";
     
     private final ProductService productService;
     private final ProductRepository productRepository;
@@ -31,15 +28,20 @@ public class ProductController
         return new ProductListDTO(productService.getAllProduct());
     }
     
-    //get id
+    @GetMapping({"/{id}"})
+    @ResponseStatus(HttpStatus.OK)
+    public ProductDTO getProductById (@PathVariable Long id){
+        return productService.getProductById(id);
+    }
     
-    @PutMapping(BASE_URL + "{id}")
+    @PutMapping({"/{id}"})
     @ResponseStatus(HttpStatus.OK)
     public ProductDTO updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO){
+        
         return productService.saveProduct(id, productDTO);
     }
     
-    @DeleteMapping(BASE_URL + "{id}")
+    @DeleteMapping({"/{id}"})
     @ResponseStatus(HttpStatus.OK)
     public void deleteProduct(@PathVariable Long id){
        productService.deleteProduct(id);
