@@ -28,11 +28,9 @@ public class ProductController
         return new ProductListDTO(productService.getAllProduct());
     }
     
-    @GetMapping({"/{id}"})
+    @GetMapping({"/{search}"})
     @ResponseStatus(HttpStatus.OK)
-    public ProductDTO getProductById (@PathVariable Long id){
-        return productService.getProductById(id);
-    }
+    public ProductDTO getSearchProduct (@PathVariable String search){ return productService.getProductByName(search); }
     
     @PutMapping({"/{id}"})
     @ResponseStatus(HttpStatus.OK)
@@ -52,4 +50,5 @@ public class ProductController
     public ProductDTO addNewProduct(@RequestBody ProductDTO productDTO){
         return productService.addNewProduct(productDTO);
     }
+    
 }

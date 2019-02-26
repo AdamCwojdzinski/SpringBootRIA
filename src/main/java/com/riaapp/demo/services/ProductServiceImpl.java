@@ -53,9 +53,12 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Long id){ productRepository.deleteById(id); }
     
     @Override
-    public ProductDTO getProductById(Long id){
-        return productRepository.findById(id)
-            .map(productMapper::productToProductDTO)
+    public ProductDTO getProductByName(String search){
+        return productRepository.findAll()
+                                .stream()
+                                .filter(product -> search.equals(product.getName()))
+                                .map(productMapper::productToProductDTO)
+                                .findAny()
             .orElseThrow(ResourceNotFoundException::new);
     }
 }
