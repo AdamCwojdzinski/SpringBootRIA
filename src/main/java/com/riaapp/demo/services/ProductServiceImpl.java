@@ -30,6 +30,13 @@ public class ProductServiceImpl implements ProductService {
                                 .collect(Collectors.toList());
     }
     
+    @Override
+    public ProductDTO getProductById(Long id){
+        return productRepository.findById(id)
+                                .map(productMapper::productToProductDTO)
+                                .orElseThrow(ResourceNotFoundException::new);
+    }
+    
     private ProductDTO saveAndReturnDTO(Product product){
         Product savedProduct = productRepository.save(product);
         
@@ -53,12 +60,11 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Long id){ productRepository.deleteById(id); }
     
     @Override
-    public ProductDTO getProductByName(String search){
+    public List<ProductDTO> getProductByName(String search){
         return productRepository.findAll()
                                 .stream()
                                 .filter(product -> search.equals(product.getName()))
                                 .map(productMapper::productToProductDTO)
-                                .findAny()
-            .orElseThrow(ResourceNotFoundException::new);
+                                .collect(Collectors.toList());
     }
 }
